@@ -1,0 +1,8 @@
+
+* figure out cffi references
+* get skeleton lisp project (asd, packages, etc)
+* load the library in lisp
+* replicate some tutorials
+* blog
+* get usb camera feeding through to lisp
+* release?
