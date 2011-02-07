@@ -1,3 +1,18 @@
-This is a hobby project to wrap the opencv vision library.
+cl-opencv
+=========
 
-Hopefully I'll have time to work on it, cause I think it'd be super-cool to have in the toolkit.
+This is a project that aims to provide Common Lisp bindings to a
+reasonable subset of the OpenCV library (see
+http://opencv.willowgarage.com for details). The initial focus will be
+on image capture and transforms, though later this may be expanded to
+deal with the machine learning and other aspects of OpenCV. I will
+attempt to test at least SBCL and CLISP, but cannot really guarantee
+anything beyond SBCL, as this is the Lisp I us in my projects.
+
+This project was forked from ryepup's cl-opencv
+(https://github.com/ryepup/cl-opencv).
+
+
+
+
+
