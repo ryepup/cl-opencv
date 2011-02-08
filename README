@@ -1,4 +1,8 @@
 cl-opencv
 =========
 
-These are OpenCV bindings for SBCL. They do not promise to be complete.
+These are OpenCV bindings for SBCL. They do not promise to be
+complete.  Current code has been tested with sbcl 1.0.45 and OpenCV
+2.2.0 from MacPorts on Mac OS X 10.6. In the future I hope to test on
+some common Linux distribution and possibly using clisp.
+

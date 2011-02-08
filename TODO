@@ -1,9 +1,44 @@
 TODO
 ====
 
-* Add functions to capture from a video file.
-* Add functions to write a stream to a video file.
-* Add some simple transformations (threshold, Canny, etc.)
+* Round out highgui functions for handling reading and writing images
+  - cvLoadImageM (?)
+  - cvSaveImage
+  - cvCaptureFromFile
+  - cvCreateVideoWriter
+  - cvReleaseVideoWriter
+  - cvWriteFrame
+* Add miscellaneous image transformations
+  - cvAdaptiveThreshold
+  - cvCvtColor
+  - cvDistTransform (?)
+  - CvConnectedComp
+  - cvFloodFill
+  - cvInpaint
+  - cvIntegral
+  - cvPyrMeanShiftFiltering
+  - cvPyrSegmentation
+  - cvThreshold
+* Add some simple image filters
+  - cvDilate
+  - cvErode
+  - cvFilter2D
+  - cvLaplace
+  - cvMorphologyEx
+  - cvPyrDown
+  - cvSmooth
+  - cvSobel
+* Wrap more of the user interface functionality
+  - cvConvertImage
+  - cvCreateTrackbar
+  - cvGetTrackbarPos
+  - cvGetWindowHandle (?)
+  - cvGetWindowName (?)
+  - cvInitSystem
+  - cvMoveWindow
+  - cvResizeWindow
+  - cvSetMouseCallback
+  - cvSetTrackbarPos
 * Implement IplImage as a C struct accessible from Lisp so I can
   directly access pixels in the image through Lisp.
 
