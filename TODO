@@ -1,3 +1,9 @@
 TODO
 ====
 
+* Add functions to capture from a video file.
+* Add functions to write a stream to a video file.
+* Add some simple transformations (threshold, Canny, etc.)
+* Implement IplImage as a C struct accessible from Lisp so I can
+  directly access pixels in the image through Lisp.
+
