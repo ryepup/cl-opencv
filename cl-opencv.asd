@@ -8,5 +8,7 @@
   :depends-on (:cffi)
   :serial t
   :components ((:file "package") 
-	       (:file "highgui" :depends-on ("package"))))
+	       (:file "cl-opencv" :depends-on ("package"))
+	       (:file "core" :depends-on ("package" "cl-opencv"))
+	       (:file "highgui" :depends-on ("package" "cl-opencv" "core"))))
 
