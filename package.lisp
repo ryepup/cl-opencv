@@ -3,7 +3,7 @@
 (defpackage :cl-opencv
   (:use #:cl #:cffi)
   (:export 
-   ;; core - Basic Structures
+   ;; core - basic structures
    ; #:cv-point
    ; #:cv-size
    ; #:cv-rect
@@ -12,11 +12,20 @@
    #:ipl-image
    #:cv-array
 
-   ;; core - Operations on Arrays
+   ;; core - operations on arrays
    #:release-image
 
 
-   ;; highgui - User Interface
+   ;; imgproc - image processing - miscellaneous image transformations
+   #:+thresh-binary+
+   #:+thresh-binary-inv+
+   #:+thresh-trunc+
+   #:+thresh-tozero+
+   #:+thresh-tozero-inv+
+   #:threshold
+
+
+   ;; highgui - user interface
    #:cv-capture
    #:cv-video-writer
 
@@ -38,7 +47,7 @@
    #:show-image
    #:wait-key
 
-   ;; highgui - Reading and Writing Images and Video
+   ;; highgui - reading and writing images and video
    #:+load-image-unchanged+
    #:+load-image-grayscale+
    #:+load-image-color+
@@ -78,4 +87,5 @@
    ; #:create-video-writer
    ; #:release-video-writer
    ; #:write-frame
+
 ))
