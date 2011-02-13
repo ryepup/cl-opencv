@@ -202,6 +202,13 @@ return it."
     (setf (mem-ref capture-ptr :pointer) capture)
     (%release-capture capture-ptr)))
 
+(defmacro with-capture ((capture-var capture) &body body)
+  "ensures RELEASE-CAPTURE gets called on captures."
+  `(let ((,capture-var ,capture))
+     (unwind-protect
+	  (progn ,@body)
+       (release-capture ,capture-var))))
+
 ;; IplImage* cvRetrieveFrame(CvCapture* capture)
 (defcfun ("cvRetrieveFrame" retrieve-frame) ipl-image
   "Returns a pointer to the last image grabbed from CAPTURE-SRC with

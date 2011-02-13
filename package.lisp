@@ -87,6 +87,7 @@
    #:save-image
    #:create-camera-capture
    #:create-file-capture
+   #:with-capture
    #:+cap-prop-pos-msec+
    #:+cap-prop-pos-frames+
    #:+cap-prop-pos-avi-ratio+
