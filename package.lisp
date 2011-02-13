@@ -5,16 +5,45 @@
   (:export 
    ;; core - basic structures
    ; #:cv-point
-   ; #:cv-size
+   #:cv-size
+   #:make-cv-size
+   #:cv-size-p
+   #:copy-cv-size
+   #:cv-size-width
+   #:cv-size-height
+
+   #:cv-rect
+   #:make-cv-rect
+   #:cv-rect-p
+   #:copy-cv-rect
+   #:cv-rect-x
+   #:cv-rect-y
+   #:cv-rect-width
+   #:cv-rect-height
+
    ; #:cv-rect
    ; #:cv-scalar
    #:cv-matrix
+
    #:ipl-image
+   #:+ipl-depth-1u+
+   #:+ipl-depth-8u+
+   #:+ipl-depth-16u+
+   #:+ipl-depth-32f+
+   #:+ipl-depth-64f+
+   #:+ipl-depth-8s+
+   #:+ipl-depth-16s+
+   #:+ipl-depth-32s+
+
    #:cv-array
 
    ;; core - operations on arrays
+   #:copy
+   #:create-image
+   #:get-size
    #:release-image
-
+   #:reset-image-roi
+   #:set-image-roi
 
    ;; imgproc - image processing - miscellaneous image transformations
    #:+thresh-binary+

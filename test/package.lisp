@@ -4,5 +4,6 @@
   (:use #:cl #:cl-opencv)
   (:export
    #:display
-   #:show-camera))
+   #:show-camera
+   #:show-camera-threshold))
 

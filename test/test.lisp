@@ -13,8 +13,7 @@
 (defun show-camera (&optional (camera-index 0))
   "Show the output from the camera CAMERA-INDEX."
   (let ((capture (cl-opencv:create-camera-capture camera-index))
-	(window-name "Camera")
-	(frame nil))
+	(window-name "Camera"))
     (cl-opencv:set-capture-property capture +cap-prop-frame-width+ 640)
     (cl-opencv:set-capture-property capture +cap-prop-frame-height+ 480)
     (cl-opencv:named-window window-name)
@@ -24,5 +23,44 @@
       (cl-opencv:show-image window-name frame))
     (cl-opencv:destroy-window window-name)
     (cl-opencv:release-capture capture)))
-	 
+
+(defun show-camera-threshold (&optional (camera-index 0) 
+			      (width 640) (height 480))
+  "Show the camera output and a thresholded version in a single window."
+  (let* ((img-size (make-cv-size :width width :height height))
+	 (capture (cl-opencv:create-camera-capture camera-index))
+	 (window-name "Camera/Threshold")
+	 (grayscale (cl-opencv:create-image img-size +ipl-depth-8u+ 1))
+	 (threshold (cl-opencv:create-image img-size +ipl-depth-8u+ 1))
+	 (threshold3 (cl-opencv:create-image img-size +ipl-depth-8u+ 3))
+	 (window (cl-opencv:create-image (make-cv-size 
+					  :width (* 2 (cv-size-width img-size))
+					  :height (cv-size-height img-size))
+					 +ipl-depth-8u+ 3))
+	 (cam-roi (make-cv-rect :x 0 :y 0 :width width :height height))
+	 (bw-roi (make-cv-rect :x width :y 0 :width width :height height)))
+    (cl-opencv:set-capture-property capture +cap-prop-frame-width+ 
+				    (cv-size-width img-size))
+    (cl-opencv:set-capture-property capture +cap-prop-frame-height+ 
+				    (cv-size-height img-size))
+    (cl-opencv:named-window window-name)
+    (do ((frame (cl-opencv:query-frame capture) 
+		(cl-opencv:query-frame capture)))
+	((= 27 (cl-opencv:wait-key 33)) nil)
+      (cl-opencv:set-image-roi window cam-roi)
+      (cl-opencv:copy frame window)
+      (cl-opencv:convert-image frame grayscale)
+      (cl-opencv:threshold grayscale threshold 128 255 +thresh-binary+)
+      (cl-opencv:convert-image threshold threshold3)
+      (cl-opencv:set-image-roi window bw-roi)
+      (cl-opencv:copy threshold3 window)
+      (cl-opencv:reset-image-roi window)
+      (cl-opencv:show-image window-name window))
+    (cl-opencv:destroy-window window-name)
+    (cl-opencv:release-image window)
+    (cl-opencv:release-image threshold3)
+    (cl-opencv:release-image threshold)
+    (cl-opencv:release-image grayscale)
+    (cl-opencv:release-capture capture)))
+  
 	
