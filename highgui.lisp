@@ -147,7 +147,7 @@ pressed."
   (index :int))
 
 ;; CvCapture* cvCreateFileCapture(const char* filename)
-(defcfun ("cvCaptureFromFile" create-file-capture) cv-capture
+(defcfun ("cvCreateFileCapture" create-file-capture) cv-capture
   "Initializes capturing a video from the file FILENAME."
   (filename :string))
 
