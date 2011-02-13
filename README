@@ -6,3 +6,19 @@ complete.  Current code has been tested with sbcl 1.0.45 and OpenCV
 2.2.0 from MacPorts on Mac OS X 10.6. In the future I hope to test on
 some common Linux distribution and possibly using clisp.
 
+Installation on Ubuntu
+======================
+> sudo aptitude install libhighgui-dev
+
+Troubleshooting
+===============
+
+If you CFFI problems loading the library, be sure:
+ * your lisp and your OpenCV library are both 32 bit or both 64 bit
+ * if you installed OpenCV to a non-standard location, you might try
+ adding that path to cffi:*foreign-library-directories*
+
+Different camera support different resolutions and framerates.  The
+tests assume a camera capable of about 30fps at 640x480.  Adjust the
+values at the top of test.lisp to match your camera.  A program like
+VLC can help you determine those.
