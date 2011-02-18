@@ -3,6 +3,10 @@ cl-opencv
 
 These are OpenCV bindings for SBCL. They do not promise to be
 complete.  Current code has been tested with sbcl 1.0.45 and OpenCV
-2.2.0 from MacPorts on Mac OS X 10.6. In the future I hope to test on
-some common Linux distribution and possibly using clisp.
+2.2.0 from MacPorts on Mac OS X 10.6. Current code is also known to
+work on Ubuntu 10.10 (64-bit) with OpenCV 2.1 and SBCL 1.0.40 from the
+Ubuntu repositories. In the future I hope to expand testing to CLISP
+on these platforms. If you have had success running cl-opencv on some
+other platform, please let me know.
+
 
