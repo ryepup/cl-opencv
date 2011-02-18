@@ -1,23 +1,48 @@
 cl-opencv
 =========
 
+# Introduction #
+
 These are OpenCV bindings for SBCL. They do not promise to be
-complete.  Current code has been tested with sbcl 1.0.45 and OpenCV
-2.2.0 from MacPorts on Mac OS X 10.6. Current code is also known to
-work on Ubuntu 10.10 (64-bit) with OpenCV 2.1 and SBCL 1.0.40 from the
-Ubuntu repositories. In the future I hope to expand testing to CLISP
-on these platforms. If you have had success running cl-opencv on some
-other platform, please let me know.
+complete, though eventually I hope to have fairly complete coverage of
+OpenCV functionality. This package depends on the cffi package (see
+http://common-lisp.net/project/cffi/ for details) and libffi. I use
+Quicklisp (http://www.quicklisp.org/) to set up my Lisp environment.
 
 
-Installation on Ubuntu
-======================
-> sudo aptitude install libhighgui-dev
+# Compatibility #
 
-Troubleshooting
-===============
+This package is known to work in the following configurations.
 
-If you CFFI problems loading the library, be sure:
+ - Mac OS 10.6, sbcl 1.0.45 (MacPorts), OpenCV 2.2 (MacPorts)
+ - Ubuntu 10.10 (64-bit), sbcl 1.0.40, OpenCV 2.1
+
+If you have gotten cl-opencv to run with some other combination of OS
+and software versions, please let me know.
+
+
+# Installation #
+
+## Mac OS X ##
+
+ 1. Install OpenCV from MacPorts: `port install opencv`
+ 2. Install libffi from MacPorts: `port install libffi`
+ 3. In your lisp environment, make sure that cffi is available. In
+    Quicklisp you would just do `(ql:quickload "cffi")`.
+
+## Ubuntu ##
+
+ 1. Install OpenCV from the repos: `sudo apt-get install libhighgui-dev`.
+ 2. Install libffi from the repos: `sudo apt-get install libffi`
+ 3. In your lisp environment, make sure that cffi is available. In
+    Quicklisp you would just do `(ql:quickload "cffi")`.
+
+
+# Troubleshooting #
+
+## Ubuntu ##
+
+If you CFFI has problems loading the library, be sure:
  * your lisp and your OpenCV library are both 32 bit or both 64 bit
  * if you installed OpenCV to a non-standard location, you might try
  adding that path to cffi:*foreign-library-directories*
