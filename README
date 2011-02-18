@@ -1,7 +1,7 @@
-cl-opencv
-=========
+# README: cl-opencv #
 
-# Introduction #
+
+## Introduction ##
 
 These are OpenCV bindings for SBCL. They do not promise to be
 complete, though eventually I hope to have fairly complete coverage of
@@ -10,7 +10,7 @@ http://common-lisp.net/project/cffi/ for details) and libffi. I use
 Quicklisp (http://www.quicklisp.org/) to set up my Lisp environment.
 
 
-# Compatibility #
+## Compatibility ##
 
 This package is known to work in the following configurations.
 
@@ -21,16 +21,16 @@ If you have gotten cl-opencv to run with some other combination of OS
 and software versions, please let me know.
 
 
-# Installation #
+## Installation ##
 
-## Mac OS X ##
+### Mac OS X ###
 
  1. Install OpenCV from MacPorts: `port install opencv`
  2. Install libffi from MacPorts: `port install libffi`
  3. In your lisp environment, make sure that cffi is available. In
     Quicklisp you would just do `(ql:quickload "cffi")`.
 
-## Ubuntu ##
+### Ubuntu ###
 
  1. Install OpenCV from the repos: `sudo apt-get install libhighgui-dev`.
  2. Install libffi from the repos: `sudo apt-get install libffi`
@@ -38,9 +38,9 @@ and software versions, please let me know.
     Quicklisp you would just do `(ql:quickload "cffi")`.
 
 
-# Troubleshooting #
+## Troubleshooting ##
 
-## Ubuntu ##
+### Ubuntu ###
 
 If you CFFI has problems loading the library, be sure:
  * your lisp and your OpenCV library are both 32 bit or both 64 bit
