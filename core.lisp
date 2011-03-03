@@ -36,6 +36,21 @@
 	(i2 (+ (cv-rect-width r) (ash (cv-rect-height r) 32))))
     (list i1 i2)))
 
+;; CvScalar 
+;; In OpenCV a scalar is a struct whose single member is an array of
+;; four double values. We just use a list with values coerced to
+;; double. We provide a helper function to create a Lisp version of a
+;; scalar. The helper ensures that there are only four values in the
+;; scalar.
+(defun make-scalar (&rest args)
+  (mapcar #'(lambda (v) (coerce v 'double-float))
+	  (cond ((> (length args) 4) (subseq args 0 4))
+		((< (length args) 4) 
+		 (do ((new-args (reverse args)))
+		     ((= (length new-args) 4) (reverse new-args))
+		   (push 0 new-args)))
+		(t args))))
+
 ;; CvMat
 (defctype cv-matrix :pointer)
 
@@ -59,6 +74,27 @@
 
 
 ;;; Operations on Arrays
+
+;; void cvAbsDiff(const CvArr* src1, const CvArr* src2, CvArr* dst)
+(defcfun ("cvAbsDiff" abs-diff) :void
+  "Calculate the absolute difference between elements in SRC1 and SRC2
+and store them in DEST."
+  (src1 cv-array)
+  (src2 cv-array)
+  (dest cv-array))
+
+;; void cvAbsDiffS(const CvArr* src, CvArr* dst, CvScalar value)
+(defcfun ("cvAbsDiffS" %abs-diff-scalar) :void
+  (src cv-array)
+  (dest cv-array)
+  (s1 :double)
+  (s2 :double)
+  (s3 :double)
+  (s4 :double))
+
+(defun abs-diff-scalar (src dest scalar)
+  "Calculate the absolute difference between elements of SRC and a fixed vector of values SCALAR. Store the result in DEST."
+  (apply #'%abs-diff-scalar src dest scalar))
 
 ;; void cvCopy(const CvArr* src, CvArr* dst, const CvArr* mask=NULL)
 (defcfun ("cvCopy" %copy) :void
@@ -119,3 +155,17 @@ dimensions."
   "Set the ROI of IMAGE to the rectangle RECT."
   (let ((irect (cv-rect-to-int64s rect)))
     (%set-image-roi image (first irect) (second irect))))
+
+;; void cvSub(const CvArr* src1, const CvArr* src2, CvArr* dst, 
+;;            const CvArr* mask=NULL)
+(defcfun ("cvSub" %subtract) :void
+  (src1 cv-array)
+  (src2 cv-array)
+  (dest cv-array)
+  (mask cv-array))
+
+(defun subtract (src1 src2 dest &optional (mask (null-pointer)))
+  "Subtract elements of SRC2 from SRC1 for the set bits in MASK and
+store the result in DEST. This operation is saturating for types with
+limited range."
+  (%subtract src1 src2 dest mask))

@@ -23,6 +23,7 @@
 
    ; #:cv-rect
    ; #:cv-scalar
+   #:make-scalar
    #:cv-matrix
 
    #:ipl-image
@@ -38,12 +39,17 @@
    #:cv-array
 
    ;; core - operations on arrays
+   #:abs-diff        ; TODO
+   #:abs-diff-scalar ; TODO
    #:copy
    #:create-image
    #:get-size
    #:release-image
    #:reset-image-roi
    #:set-image-roi
+   #:subtract        ; TODO
+   #:subtract-scalar ; TODO
+   #:sub-r-scalar    ; TODO 
 
    ;; imgproc - image processing - miscellaneous image transformations
    #:+thresh-binary+

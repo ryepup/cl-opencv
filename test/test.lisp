@@ -1,8 +1,8 @@
 (in-package #:cl-opencv-test)
 
 ;;various settings that depend on the camera in use
-(defvar *default-width* 320)
-(defvar *default-height* 240)
+(defvar *default-width* 640)
+(defvar *default-height* 480)
 (defvar *frames-per-second* 30)
 (defvar *millis-per-frame* (round (/ 1000 *frames-per-second*)))
 
@@ -65,4 +65,67 @@
       (release-image threshold)
       (release-image grayscale))))
   
-        
+(defun camera-frame-diff (&optional (camera-index 0) (width *default-width*)
+			 (height *default-height*))
+  (with-capture (capture (create-camera-capture camera-index))
+    (let* ((img-size (make-cv-size :width width :height height))
+	   (window-name "Frame Difference")
+	   (images (list (create-image img-size +ipl-depth-8u+ 1)
+			 (create-image img-size +ipl-depth-8u+ 1)))
+	   (dest (create-image img-size +ipl-depth-8u+ 1)))
+      (set-capture-property capture +cap-prop-frame-width+ 
+			    (cv-size-width img-size))
+      (set-capture-property capture +cap-prop-frame-height+ 
+			    (cv-size-height img-size))
+      (named-window window-name)
+      (do ((frame (query-frame capture) (query-frame capture))
+	   (frame-num 0 (1+ frame-num)))
+	  ((plusp (wait-key *millis-per-frame*)) nil)
+        (convert-image frame (elt images (mod frame-num 2)))
+	(abs-diff (first images) (second images) dest)
+	(show-image window-name dest))
+      (destroy-window window-name)
+      (mapcar #'release-image images)
+      (release-image dest))))
+
+;; TODO fix camera-abs-diff
+(defun camera-abs-diff (&optional (camera-index 0) (width *default-width*)
+			 (height *default-height*))
+  (with-capture (capture (create-camera-capture camera-index))
+    (let* ((img-size (make-cv-size :width width :height height))
+	   (window-name "Frame Absolute Difference")
+	   (dest (create-image img-size +ipl-depth-8u+ 3))
+	   (scalar (make-scalar 128.0 128.0 128.0)))
+      (set-capture-property capture +cap-prop-frame-width+ 
+			    (cv-size-width img-size))
+      (set-capture-property capture +cap-prop-frame-height+ 
+			    (cv-size-height img-size))
+      (named-window window-name)
+      (do ((frame (query-frame capture) (query-frame capture)))
+	  ((plusp (wait-key *millis-per-frame*)) nil)
+	(abs-diff-scalar frame dest scalar)
+	(show-image window-name dest))
+      (destroy-window window-name)
+      (release-image dest))))
+	 
+(defun camera-subtract (&optional (camera-index 0) (width *default-width*)
+			 (height *default-height*))
+  (with-capture (capture (create-camera-capture camera-index))
+    (let* ((img-size (make-cv-size :width width :height height))
+	   (window-name "Frame Subtract")
+	   (last-frame (create-image img-size +ipl-depth-8u+ 3))
+	   (dest (create-image img-size +ipl-depth-8u+ 3)))
+      (set-capture-property capture +cap-prop-frame-width+ 
+			    (cv-size-width img-size))
+      (set-capture-property capture +cap-prop-frame-height+ 
+			    (cv-size-height img-size))
+      (named-window window-name)
+      (do ((frame (query-frame capture) (query-frame capture)))
+	  ((plusp (wait-key *millis-per-frame*)) nil)
+	(subtract frame last-frame dest)
+	(show-image window-name dest)
+	(copy frame last-frame))
+      (destroy-window window-name)
+      (release-image last-frame)
+      (release-image dest))))
+

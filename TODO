@@ -1,6 +1,8 @@
 TODO
 ====
 
+* with-images macro to automatically release images when done
+* with-window macro to automatically destroy windows when done
 * Figure out how to do callbacks for foreign functions in Lisp.
 * Figure out how to better deal with passing structs by value.
 * Figure out how to do better error handling of foreign function exceptions.
