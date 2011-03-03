@@ -43,11 +43,11 @@ and software versions, please let me know.
 
 ### Ubuntu ###
 
-If you CFFI has problems loading the library, be sure:
+If CFFI has problems loading the library, be sure that:
 
- - your lisp and your OpenCV library are both 32 bit or both 64 bit
+ - your lisp and your OpenCV library are both 32 bit or both 64 bit; and
  - if you installed OpenCV to a non-standard location, you might try
- adding that path to cffi:*foreign-library-directories*
+ adding that path to `cffi:*foreign-library-directories*`.
 
 Different camera support different resolutions and framerates.  The
 tests assume a camera capable of about 30fps at 640x480.  Adjust the
