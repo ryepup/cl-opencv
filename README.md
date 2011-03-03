@@ -6,7 +6,8 @@
 These are OpenCV bindings for SBCL. They do not promise to be
 complete, though eventually I hope to have fairly complete coverage of
 OpenCV functionality. This package depends on the [cffi
-package](http://common-lisp.net/project/cffi/) and libffi. I use
+package](http://common-lisp.net/project/cffi/) and
+[libffi](http://sourceware.org/libffi/). I use
 [Quicklisp](http://www.quicklisp.org/) to set up my Lisp environment.
 
 
