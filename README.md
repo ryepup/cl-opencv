@@ -29,7 +29,9 @@ and software versions, please let me know.
  1. Install OpenCV from MacPorts: `port install opencv`
  2. Install libffi from MacPorts: `port install libffi`
  3. In your lisp environment, make sure that cffi is available. In
-    Quicklisp you would just do `(ql:quickload "cffi")`.
+ Quicklisp you would just do `(ql:quickload "cffi")`.
+ 4. Run `make` and `sudo make install` in the top-level directory to
+ build and install the glue code library.
 
 ### Ubuntu ###
 
@@ -37,6 +39,8 @@ and software versions, please let me know.
  2. Install libffi from the repos: `sudo apt-get install libffi`
  3. In your lisp environment, make sure that cffi is available. In
     Quicklisp you would just do `(ql:quickload "cffi")`.
+ 4. Run `make` and `sudo make install` in the top-level directory to
+ build and install the glue code library.
 
 
 ## Troubleshooting ##
@@ -50,6 +54,6 @@ If CFFI has problems loading the library, be sure that:
  adding that path to `cffi:*foreign-library-directories*`.
 
 Different camera support different resolutions and framerates.  The
-tests assume a camera capable of about 30fps at 640x480.  Adjust the
+tests assume a camera capable of about 30 fps at 640x480.  Adjust the
 values at the top of test.lisp to match your camera.  A program like
 VLC can help you determine those.
