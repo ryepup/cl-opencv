@@ -1,0 +1,9 @@
+# Common Makefile options
+
+LIB_NAME=cl-opencv-glue
+
+SHLIB_NAME=lib$(LIB_NAME)
+OBJ_SUFFIX=o
+
+STUBS=$(LIB_NAME).$(OBJ_SUFFIX) $(SHLIB_NAME).$(SHLIB_SUFFIX)
+

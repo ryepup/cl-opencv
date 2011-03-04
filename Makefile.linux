@@ -1,0 +1,14 @@
+#### -*- Mode: Makefile -*-
+
+CC=gcc
+SHFLAGS=-shared -fPIC
+CFLAGS+=$(SHFLAGS) -g -Wall
+LDFLAGS+=$(SHFLAGS) -L/usr/X11R6/lib/
+SHLIB_SUFFIX=so
+OPENCV_CONFIG=pkg-config opencv
+
+OPENCV_CFLAGS=$(CFLAGS) $(shell $(OPENCV_CONFIG) --cflags)
+OPENCV_LDFLAGS=$(LDFLAGS) $(shell $(OPENCV_CONFIG) --libs)
+
+OPENCV_GLUE_CFLAGS=$(OPENCV_CFLAGS)
+OPENCV_GLUE_LDFLAGS=$(OPENCV_LDFLAGS)

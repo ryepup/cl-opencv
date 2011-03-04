@@ -1,0 +1,14 @@
+#### Makefile for Darwin/PPC systems
+
+CC=gcc
+SHFLAGS=-dynamiclib
+CFLAGS+=$(SHFLAGS) -g -Wall
+LDFLAGS+=$(SHFLAGS)
+SHLIB_SUFFIX=dylib
+OPENCV_CONFIG=pkg-config opencv
+
+OPENCV_CFLAGS=$(CFLAGS) $(shell $(OPENCV_CONFIG) --cflags)
+OPENCV_LDFLAGS=$(LDFLAGS) $(shell $(OPENCV_CONFIG) --libs)
+
+OPENCV_GLUE_CFLAGS=$(OPENCV_CFLAGS)
+OPENCV_GLUE_LDFLAGS=$(OPENCV_LDFLAGS)
