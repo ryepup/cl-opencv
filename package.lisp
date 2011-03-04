@@ -39,17 +39,17 @@
    #:cv-array
 
    ;; core - operations on arrays
-   #:abs-diff        ; TODO
-   #:abs-diff-scalar ; TODO
+   #:abs-diff
+   #:abs-diff-scalar
    #:copy
    #:create-image
    #:get-size
    #:release-image
    #:reset-image-roi
    #:set-image-roi
-   #:subtract        ; TODO
-   #:subtract-scalar ; TODO
-   #:sub-r-scalar    ; TODO 
+   #:subtract
+   #:subtract-scalar
+   #:sub-r-scalar
 
    ;; imgproc - image processing - miscellaneous image transformations
    #:+thresh-binary+

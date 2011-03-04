@@ -84,7 +84,7 @@ and store them in DEST."
   (dest cv-array))
 
 ;; void cvAbsDiffS(const CvArr* src, CvArr* dst, CvScalar value)
-(defcfun ("cvAbsDiffS" %abs-diff-scalar) :void
+(defcfun ("cvAbsDiffS_glue" %abs-diff-scalar-glue) :void
   (src cv-array)
   (dest cv-array)
   (s1 :double)
@@ -94,7 +94,7 @@ and store them in DEST."
 
 (defun abs-diff-scalar (src dest scalar)
   "Calculate the absolute difference between elements of SRC and a fixed vector of values SCALAR. Store the result in DEST."
-  (apply #'%abs-diff-scalar src dest scalar))
+  (apply #'%abs-diff-scalar-glue src dest scalar))
 
 ;; void cvCopy(const CvArr* src, CvArr* dst, const CvArr* mask=NULL)
 (defcfun ("cvCopy" %copy) :void
@@ -169,3 +169,41 @@ dimensions."
 store the result in DEST. This operation is saturating for types with
 limited range."
   (%subtract src1 src2 dest mask))
+
+;; void cvSubS(const CvArr* src, CvScalar value, CvArr* dst, 
+;;             const CvArr* mask=NULL)
+(defcfun ("cvSubS_glue" %subtract-scalar-glue) :void
+  (src cv-array)
+  (s1 :double)
+  (s2 :double)
+  (s3 :double)
+  (s4 :double)
+  (dest cv-array)
+  (mask cv-array))
+
+(defun subtract-scalar (src scalar dest &optional (mask (null-pointer)))
+  "Subtract corresponding elements of SCALAR from each pixel in SRC
+and store the result in DEST. Only subtract where pixels in MASK are
+non-zero."
+  (%subtract-scalar-glue src (first scalar) (second scalar) (third scalar) 
+			 (fourth scalar) dest mask))
+
+;; void cvSubRS(const CvArr* src, CvScalar value, CvArr* dst, 
+;;              const CvArr* mask=NULL) 
+(defcfun ("cvSubRS_glue" %subtract-r-scalar-glue) :void
+  (src cv-array)
+  (s1 :double)
+  (s2 :double)
+  (s3 :double)
+  (s4 :double)
+  (dest cv-array)
+  (mask cv-array))
+    
+(defun subtract-r-scalar (src scalar dest &optional (mask (null-pointer)))
+  "Subtract corresponding elements of SRC pixels from each element of
+SCALAR and store the result in DEST. Only subtract where pixels in
+MASK are non-zero."
+  (%subtract-r-scalar-glue src (first scalar) (second scalar) (third scalar) 
+			   (fourth scalar) dest mask))
+
+  

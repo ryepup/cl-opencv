@@ -4,6 +4,7 @@
 ;;;; Library loading and common code
 (in-package :cl-opencv)
 
+;;; Foreign library setup
 (when (member :darwin cl:*features*)
   (pushnew #p"/opt/local/lib/" cffi:*foreign-library-directories*))
 
@@ -11,9 +12,15 @@
   (:darwin (:or "libopencv_highgui.2.2.0.dylib" "libopencv_highgui.dylib"))
   (:unix (:or "libhighgui.so.2.1.0" "libhighgui.so" ))
   (t (:default "libhighgui")))
-
 (use-foreign-library highgui)
 
+(define-foreign-library cl-opencv-glue
+  (:darwin "libcl-opencv-glue.dylib")
+  (:unix "libcl-opencv-glue.so")
+  (t (:default "libcl-opencv-glue")))
+(use-foreign-library cl-opencv-glue)
+
+;;; General macros and functions
 (defmacro defanonenum (&body enums)
   "Converts anonymous enums to Lisp constants."
   `(cl:progn ,@(cl:loop for value in enums
