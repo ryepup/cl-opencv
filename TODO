@@ -1,6 +1,8 @@
 TODO
 ====
 
+* set up glue code library
+* load glue code library for cffi
 * with-images macro to automatically release images when done
 * with-window macro to automatically destroy windows when done
 * Figure out how to do callbacks for foreign functions in Lisp.
