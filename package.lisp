@@ -4,7 +4,13 @@
   (:use #:cl #:cffi)
   (:export 
    ;; core - basic structures
-   ; #:cv-point
+   #:cv-point
+   #:make-cv-point
+   #:cv-point-p
+   #:copy-cv-point
+   #:cv-point-x
+   #:cv-point-y
+
    #:cv-size
    #:make-cv-size
    #:cv-size-p
@@ -21,9 +27,7 @@
    #:cv-rect-width
    #:cv-rect-height
 
-   ; #:cv-rect
-   ; #:cv-scalar
-   #:make-scalar
+   #:make-cv-scalar
    #:cv-matrix
 
    #:ipl-image
@@ -52,6 +56,18 @@
    #:sub-r-scalar
 
    ;; imgproc - image processing - miscellaneous image transformations
+   #:ipl-conv-kernel
+   #:+ipl-border-constant+
+   #:+ipl-border-replicate+
+   #:copy-make-border
+   #:+cv-shape-rect+
+   #:+cv-shape-cross+
+   #:+cv-shape-ellipse+
+   #:+cv-shape-custom+
+   #:create-structuring-element-ex
+   #:dilate
+   #:+gaussian-5x5+
+   #:pyr-down
    #:+thresh-binary+
    #:+thresh-binary-inv+
    #:+thresh-trunc+
