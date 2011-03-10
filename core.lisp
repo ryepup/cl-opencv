@@ -7,30 +7,47 @@
 
 ;;; Basic Structures
 
+;; We do some heinous kludging here for now. CFFI cannot pass structs
+;; by value, which is almost always how OpenCV uses CvSize and
+;; CvPoint. We get around this by treating the these structs as a
+;; 64-bit integer, which CFFI can handle (at least on some
+;; platforms). The correct answer is to write some glue C code to
+;; translate structs passed by value to pointers.
+
+(defmacro make-structure-serializers (struct slot1 slot2)
+  "Create a serialization and deserialization functionf for the
+structure STRUCT with integer slots SLOT1 and SLOT2. These functions
+will pack and unpack the structure into an INT64."
+  (let ((pack-fn (intern (concatenate 'string (string struct) 
+				      (string '->int64))))
+	(slot1-fn (intern (concatenate 'string (string struct) "-" 
+				       (string slot1))))
+	(slot2-fn (intern (concatenate 'string (string struct) "-" 
+				       (string slot2))))
+	(unpack-fn (intern (concatenate 'string (string 'int64->) 
+					(string struct))))
+	(make-fn (intern (concatenate 'string (string 'make-) 
+				      (string struct)))))
+    `(progn
+       (defun ,pack-fn (s)
+	 (+ (,slot1-fn s) (ash (,slot2-fn s) 32)))
+       (defun ,unpack-fn (n)
+	 (,make-fn ,slot1 (logand n #x00000000ffffffff)
+		   ,slot2 (ash n -32))))))
+
+;; CvPoint
+(defstruct cv-point (x 0) (y 0))
+(make-structure-serializers :cv-point :x :y)
+
 ;; CvSize
-;; We do some heinous kludging here for now. CFFI cannot pass structs by value,
-;; which is almost always how OpenCV uses CvSize. We get around this by 
-;; treating the CvSize struct as a 64-bit integer, which CFFI can handle (at
-;; least on some platforms). The correct answer is either to write some glue
-;; C code to translate structs passed by value to pointers or to figure out
-;; how lispbuilder-sdl deals with the SDL_Color struct (it doesn't seem to 
-;; use glue code).
 (defstruct cv-size (width 0) (height 0))
-
-(defun cv-size-to-int64 (s)
-  "Packs the cv-size structure S into a 64-bit integer."
-  (+ (cv-size-width s) (ash (cv-size-height s) 32)))
-
-(defun int64-to-cv-size (n)
-  "Unpacks the CvSize struct S from a 64-bit integer to a Lisp cv-size struct."
-  (make-cv-size :width (logand n #x00000000ffffffff)
-		:height (ash n -32)))
+(make-structure-serializers :cv-size :width :height)
 
 ;; CvRect
 ;; More kludging Lisp structs to 64-bit integers which are really C structs.
 (defstruct cv-rect (x 0) (y 0) (width 0) (height 0))
 
-(defun cv-rect-to-int64s (r)
+(defun cv-rect->int64s (r)
   "Convert a cv-rect struct R into two 64-bit integers."
   (let ((i1 (+ (cv-rect-x r) (ash (cv-rect-y r) 32)))
 	(i2 (+ (cv-rect-width r) (ash (cv-rect-height r) 32))))
@@ -42,7 +59,7 @@
 ;; double. We provide a helper function to create a Lisp version of a
 ;; scalar. The helper ensures that there are only four values in the
 ;; scalar.
-(defun make-scalar (&rest args)
+(defun make-cv-scalar (&rest args)
   (mapcar #'(lambda (v) (coerce v 'double-float))
 	  (cond ((> (length args) 4) (subseq args 0 4))
 		((< (length args) 4) 
@@ -116,7 +133,7 @@ are copied."
 (defun create-image (size depth channels)
   "Create an image with dimensions given by SIZE, DEPTH bits per
 channel, and CHANNELS number of channels."
-  (let ((nsize (cv-size-to-int64 size)))
+  (let ((nsize (cv-size->int64 size)))
     (%create-image nsize depth channels)))
 
 ;; CvSize cvGetSize(const CvArr* arr)
@@ -127,7 +144,7 @@ channel, and CHANNELS number of channels."
   "Get the dimensions of the OpenCV array ARR. Return a cv-size struct with the
 dimensions."
   (let ((nsize (%get-size arr)))
-    (int64-to-cv-size nsize)))
+    (int64->cv-size nsize)))
 
 ;; void cvReleaseImage(IplImage** image)
 (defcfun ("cvReleaseImage" %release-image) :void
@@ -153,7 +170,7 @@ dimensions."
 
 (defun set-image-roi (image rect)
   "Set the ROI of IMAGE to the rectangle RECT."
-  (let ((irect (cv-rect-to-int64s rect)))
+  (let ((irect (cv-rect->int64s rect)))
     (%set-image-roi image (first irect) (second irect))))
 
 ;; void cvSub(const CvArr* src1, const CvArr* src2, CvArr* dst, 
