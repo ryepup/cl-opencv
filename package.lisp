@@ -45,6 +45,7 @@
    ;; core - operations on arrays
    #:abs-diff
    #:abs-diff-scalar
+   #:add-weighted
    #:copy
    #:create-image
    #:get-size

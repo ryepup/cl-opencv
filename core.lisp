@@ -113,6 +113,16 @@ and store them in DEST."
   "Calculate the absolute difference between elements of SRC and a fixed vector of values SCALAR. Store the result in DEST."
   (apply #'%abs-diff-scalar-glue src dest scalar))
 
+;; void cvAddWeighted(const CvArr* src1, double alpha, const CvArr* src2, 
+;;                    double beta, double gamma, CvArr* dst)
+(defcfun ("cvAddWeighted" add-weighted) :void
+  (src1 cv-array)
+  (alpha :double)
+  (src2 cv-array)
+  (beta :double)
+  (dest cv-array)
+  (gamma :double))
+
 ;; void cvCopy(const CvArr* src, CvArr* dst, const CvArr* mask=NULL)
 (defcfun ("cvCopy" %copy) :void
   (src cv-array)
