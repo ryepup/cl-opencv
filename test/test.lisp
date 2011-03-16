@@ -129,3 +129,59 @@
       (release-image last-frame)
       (release-image dest))))
 
+(defun show-video (filename)
+  "Show the video in FILENAME in a window."
+  (with-capture (capture (create-file-capture filename))
+    (let ((width 
+	   (truncate (get-capture-property capture +cap-prop-frame-width+)))
+	  (height 
+	   (truncate (get-capture-property capture +cap-prop-frame-height+)))
+	  (frames 
+	   (truncate (get-capture-property capture +cap-prop-frame-count+))))
+      (format t "~a: ~:dx~:d ~:d frames~%" filename width height frames)
+      (named-window filename)
+      (do ((frame (query-frame capture) (query-frame capture)))
+          ((or (plusp (wait-key *millis-per-frame*)) 
+	       (cffi:null-pointer-p frame)) nil)
+        (show-image filename frame))
+      (destroy-window filename))))
+
+(defun strip-summarize (filename)
+  "Read a video from FILENAME and create a summary by taking a
+vertical slice of pixels from the middle of each frame and creating an
+image."
+  (with-capture (capture (create-file-capture filename))
+    (let* ((width 
+	    (truncate (get-capture-property capture +cap-prop-frame-width+)))
+	   (height 
+	    (truncate (get-capture-property capture +cap-prop-frame-height+)))
+	   (frames 
+	    (truncate (get-capture-property capture +cap-prop-frame-count+)))
+	   (x (/ width 2))
+	   (frame-roi (make-cv-rect :x x :y 0 :width 1 :height height))
+	   (img-size (make-cv-size :width frames :height height))
+	   (img (create-image img-size +ipl-depth-8u+ 3)))
+      (format t "~a: ~:dx~:d ~:d frames~%" filename width height frames)
+      (format t "frame ROI: ~a~%" frame-roi)
+      (format t "summary size: ~a~%" img-size)
+      (named-window filename)
+      (do* ((frame (query-frame capture) (query-frame capture))
+	    (frame-num 0 (1+ frame-num))
+	    (img-roi (make-cv-rect :width 1 :height height)
+		     (make-cv-rect :x frame-num :width 1 :height height)))
+	   ((cffi:null-pointer-p frame) nil)
+	(reset-image-roi img)
+	(show-image filename img)
+	(set-image-roi frame frame-roi)
+	(set-image-roi img img-roi)
+	(copy frame img))
+      (reset-image-roi img)
+      (save-image (concatenate 'string filename ".tif") img)
+      ;(release-image img)
+      (destroy-window filename)
+      img)))
+      
+      
+
+	   
+	   
