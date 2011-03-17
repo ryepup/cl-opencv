@@ -1,44 +1,53 @@
-TODO
-====
+#+TITLE: cl-opencv TODO List
+#+AUTHOR: J. Bromley <jbromley@gmail.com>
+#+TODO: TODO IN_PROGRESS | DONE CANCELED
 
-* with-images macro to automatically release images when done
-* with-window macro to automatically destroy windows when done
-* Figure out how to do callbacks for foreign functions in Lisp.
-* Figure out how to better deal with passing structs by value.
-* Figure out how to do better error handling of foreign function exceptions.
-* Round out highgui functions for handling reading and writing images.
-  - cvCreateVideoWriter
-  - cvReleaseVideoWriter
-  - cvWriteFrame
-* Wrap more of the user interface functionality
-  - cvCreateTrackbar
-  - cvGetTrackbarPos
-  - cvGetWindowHandle (?)
-  - cvGetWindowName (?)
-  - cvInitSystem
-  - cvSetMouseCallback
-  - cvSetTrackbarPos
-* Add miscellaneous image transformations [1]
-  - cvAdaptiveThreshold
-  - cvCvtColor
-  - cvDistTransform (?)
-  - CvConnectedComp
-  - cvFloodFill
-  - cvInpaint
-  - cvIntegral
-  - cvPyrMeanShiftFiltering
-  - cvPyrSegmentation
-* Add some simple image filters [1]
-  - cvDilate
-  - cvErode
-  - cvFilter2D
-  - cvLaplace
-  - cvMorphologyEx
-  - cvPyrDown
-  - cvSmooth
-  - cvSobel
-* Implement IplImage as a C struct accessible from Lisp so I can
-  directly access pixels in the image through Lisp.
+* TODO Wrap highgui functions for reading and writing images. [0%]
+  - [ ] cvCreateVideoWriter
+  - [ ] cvReleaseVideoWriter
+  - [ ] cvWriteFrame
+  - [ ] CV_FOURCC
+* TODO Add miscellaneous image transformations [1]. [0%]
+  - [ ] cvAdaptiveThreshold
+  - [ ] cvCvtColor
+  - [ ] cvDistTransform (?)
+  - [ ] CvConnectedComp
+  - [ ] cvFloodFill
+  - [ ] cvInpaint
+  - [ ] cvIntegral
+  - [ ] cvPyrMeanShiftFiltering
+  - [ ] cvPyrSegmentation
+* TODO Make get capture property return proper type.
+Currently all properties are returned as doubles, which forces me to
+truncate them when I actually am expecting an integer. Fix this so
+each property gets returned as the proper type.
+* TODO Wrap cvCreateImageHeader.
+* TODO Implement IplImage as a C struct accessible from Lisp.
+This will allow me to directly access pixel data and other `IplImage`
+information through `IplImage` pointers.
+* TODO Create with-images macro to automatically release images when done.
+* TODO Create with-window macro to automatically destroy windows when done.
+* TODO Figure out how to do callbacks for foreign functions in Lisp.
+* TODO Figure out how to better deal with passing structs by value.
+* TODO Do better error handling of foreign function exceptions.
+* TODO Wrap more of the user interface functionality. [0%]
+ - [ ] cvCreateTrackbar
+ - [ ] cvGetTrackbarPos
+ - [ ] cvGetWindowHandle (?)
+ - [ ] cvGetWindowName (?)
+ - [ ] cvInitSystem
+ - [ ] cvSetMouseCallback
+ - [ ] cvSetTrackbarPos
+* IN_PROGRESS Add some simple image filters [1]. [25%]
+ - [X] cvDilate
+ - [ ] cvErode
+ - [ ] cvFilter2D
+ - [ ] cvLaplace
+ - [ ] cvMorphologyEx
+ - [X] cvPyrDown
+ - [ ] cvSmooth
+ - [ ] cvSobel
+
 
 [1] See
 http://opencv.willowgarage.com/documentation/c/imgproc__image_processing.html
