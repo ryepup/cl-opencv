@@ -7,8 +7,8 @@
   - [ ] cvReleaseVideoWriter
   - [ ] cvWriteFrame
   - [ ] CV_FOURCC
-* TODO Add miscellaneous image transformations [1]. [0%]
-  - [ ] cvAdaptiveThreshold
+* TODO Add miscellaneous image transformations [1]. [11%]
+  - [X] cvAdaptiveThreshold
   - [ ] cvCvtColor
   - [ ] cvDistTransform (?)
   - [ ] CvConnectedComp
@@ -38,13 +38,14 @@ information through `IplImage` pointers.
  - [ ] cvInitSystem
  - [ ] cvSetMouseCallback
  - [ ] cvSetTrackbarPos
-* IN_PROGRESS Add some simple image filters [1]. [25%]
+* IN_PROGRESS Add some simple image filters [1]. [22%]
  - [X] cvDilate
  - [ ] cvErode
  - [ ] cvFilter2D
  - [ ] cvLaplace
  - [ ] cvMorphologyEx
  - [X] cvPyrDown
+ - [ ] cvReleaseStructuringElement
  - [ ] cvSmooth
  - [ ] cvSobel
 

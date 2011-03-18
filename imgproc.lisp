@@ -94,6 +94,36 @@ FILTER for the convolution."
 
 ;;; Miscellaneous Image Transformations
 
+;; void cvAdaptiveThreshold(const CvArr* src, CvArr* dst, double maxValue, 
+;;                          int adaptive_method=CV_ADAPTIVE_THRESH_MEAN_C, 
+;;                          int thresholdType=CV_THRESH_BINARY, int blockSize=3,
+;;                          double param1=5)
+
+;; Adaptive threshold types
+(defanonenum
+  +adaptive-thresh-mean-c+
+  +adaptive-thresh-gaussian-c+)
+
+(defcfun ("cvAdaptiveThreshold" %adaptive-threshold) :void
+  (src cv-array)                ; source image
+  (dest cv-array)               ; destination image
+  (max-value :double)           ; maximum value: binary and inverse binary
+  (adaptive-method :int)        ; adaptive thresholding algorithm
+  (threshold-type :int)         ; binary or inverse binary thresholding
+  (block-size :int)             ; pixel neighborhood size for thresholding
+  (param-1 :double))            ; method-dependent parameter
+
+(defun adaptive-threshold (src dest max-value &optional 
+			   (adaptive-method +adaptive-thresh-mean-c+)
+			   (threshold-type +thresh-binary+) (block-size 3)
+			   (param-1 5))
+  (%adaptive-threshold src dest (coerce max-value 'double-float) adaptive-method
+		       threshold-type block-size 
+		       (coerce param-1 'double-float)))
+
+;; double cvThreshold(const CvArr* src, CvArr* dst, double threshold, 
+;;                    double maxValue, int thresholdType)
+
 ;; Enumeration of threshold types for cvThreshold
 (defanonenum
   +thresh-binary+
@@ -109,8 +139,6 @@ FILTER for the convolution."
   (max-value :double)
   (threshold-type :int))
 
-;; double cvThreshold(const CvArr* src, CvArr* dst, double threshold, 
-;;                    double maxValue, int thresholdType)
 (defun threshold (src dest threshold max-value threshold-type)
   "Applies a fixed-level threshold to array elements. SRC is the
 source array and DEST is the target array. THRESHOLD is the threshold

@@ -56,7 +56,18 @@
    #:subtract-scalar
    #:sub-r-scalar
 
-   ;; imgproc - image processing - miscellaneous image transformations
+   ;; imgproc - image processing -  miscellaneous image transformations
+   #:+adaptive-thresh-mean-c+
+   #:+adaptive-thresh-gaussian-c+
+   #:adaptive-threshold
+   #:+thresh-binary+
+   #:+thresh-binary-inv+
+   #:+thresh-trunc+
+   #:+thresh-tozero+
+   #:+thresh-tozero-inv+
+   #:threshold
+
+   ;; imgproc - image processing - image filtering
    #:ipl-conv-kernel
    #:+ipl-border-constant+
    #:+ipl-border-replicate+
@@ -69,13 +80,6 @@
    #:dilate
    #:+gaussian-5x5+
    #:pyr-down
-   #:+thresh-binary+
-   #:+thresh-binary-inv+
-   #:+thresh-trunc+
-   #:+thresh-tozero+
-   #:+thresh-tozero-inv+
-   #:threshold
-
 
    ;; highgui - user interface
    #:cv-capture
