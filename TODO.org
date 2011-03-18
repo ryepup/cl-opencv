@@ -24,7 +24,9 @@ each property gets returned as the proper type.
 * TODO Wrap cvCreateImageHeader.
 * TODO Implement IplImage as a C struct accessible from Lisp.
 This will allow me to directly access pixel data and other `IplImage`
-information through `IplImage` pointers.
+information through `IplImage` pointers. This would be particularly
+useful in conjunction with cvCreateImageHeader for creating a header
+and then pointing the data somewhere inside an existing image.
 * TODO Create with-images macro to automatically release images when done.
 * TODO Create with-window macro to automatically destroy windows when done.
 * TODO Figure out how to do callbacks for foreign functions in Lisp.
@@ -38,17 +40,21 @@ information through `IplImage` pointers.
  - [ ] cvInitSystem
  - [ ] cvSetMouseCallback
  - [ ] cvSetTrackbarPos
-* IN_PROGRESS Add some simple image filters [1]. [22%]
+* IN_PROGRESS Add some simple image filters [1]. [55%]
  - [X] cvDilate
- - [ ] cvErode
+ - [X] cvErode
  - [ ] cvFilter2D
- - [ ] cvLaplace
+ - [X] cvLaplace
  - [ ] cvMorphologyEx
  - [X] cvPyrDown
- - [ ] cvReleaseStructuringElement
+ - [X] cvReleaseStructuringElement
  - [ ] cvSmooth
  - [ ] cvSobel
-
+* TODO Handle custom values for create-structuring-element-ex.
+The create-structuring-element-ex allows users to create their own
+convolution kernel. In the C interface the values of the kernel
+components are passed as an array (pointer to int). I need to add Lisp
+code to handle the list of kernel values and turn these into a native array.
 
 [1] See
 http://opencv.willowgarage.com/documentation/c/imgproc__image_processing.html

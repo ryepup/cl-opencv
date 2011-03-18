@@ -70,6 +70,28 @@ SHAPE filled with VALUES."
 (defun dilate (src dest &optional (element (null-pointer)) (iterations 1))
   (%dilate src dest element iterations))
 
+;; void cvErode(const CvArr* src, CvArr* dst, IplConvKernel* element=NULL, 
+;;              int iterations=1)
+
+(defcfun ("cvErode" %erode) :void
+  (src cv-array)
+  (dest cv-array)
+  (element ipl-conv-kernel)
+  (iterations :int))
+
+(defun erode (src dest &optional (element (null-pointer)) (iterations 1))
+ (%erode src dest element iterations))
+
+;; void cvLaplace(const CvArr* src, CvArr* dst, int apertureSize=3)
+
+(defcfun ("cvLaplace" %laplace) :void
+  (src cv-array)
+  (dest cv-array)
+  (aperture-size :int))
+
+(defun laplace (src dest &optional (aperture-size 3))
+  (%laplace src dest aperture-size))
+
 ;; void cvPyrDown(const CvArr* src, CvArr* dst, int filter=CV_GAUSSIAN_5x5)
 (defanonenum
   (+gaussian-5x5+ 7))
@@ -85,19 +107,37 @@ the image SRC and store it in DEST. Use the Gaussian filter type
 FILTER for the convolution."
   (%pyr-down src dest filter))
 
+;; void cvReleaseStructuringElement(IplConvKernel** element)
+
+(defcfun ("cvReleaseStructuringElement" %release-structuring-element) :void
+  (element-ptr :pointer))
+
+(defun release-structuring-element (element)
+  (with-foreign-object (element-ptr :pointer)
+    (setf (mem-ref element-ptr :pointer) element)
+    (%release-structuring-element element-ptr)))
+
 
 
 
 ;;; Geometric Image Transformations
 
 
-
+2
 ;;; Miscellaneous Image Transformations
 
 ;; void cvAdaptiveThreshold(const CvArr* src, CvArr* dst, double maxValue, 
 ;;                          int adaptive_method=CV_ADAPTIVE_THRESH_MEAN_C, 
 ;;                          int thresholdType=CV_THRESH_BINARY, int blockSize=3,
 ;;                          double param1=5)
+
+;; Enumeration of threshold types for cvThreshold, cvAdaptiveThreshold
+(defanonenum
+  +thresh-binary+
+  +thresh-binary-inv+
+  +thresh-trunc+
+  +thresh-tozero+
+  +thresh-tozero-inv+)
 
 ;; Adaptive threshold types
 (defanonenum
@@ -123,14 +163,6 @@ FILTER for the convolution."
 
 ;; double cvThreshold(const CvArr* src, CvArr* dst, double threshold, 
 ;;                    double maxValue, int thresholdType)
-
-;; Enumeration of threshold types for cvThreshold
-(defanonenum
-  +thresh-binary+
-  +thresh-binary-inv+
-  +thresh-trunc+
-  +thresh-tozero+
-  +thresh-tozero-inv+)
 
 (defcfun ("cvThreshold" %threshold) :double
   (src cv-array)

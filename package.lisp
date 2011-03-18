@@ -78,8 +78,12 @@
    #:+cv-shape-custom+
    #:create-structuring-element-ex
    #:dilate
+   #:erode
+   ; #:filter-2d
+   #:laplace
    #:+gaussian-5x5+
    #:pyr-down
+   #:release-structuring-element
 
    ;; highgui - user interface
    #:cv-capture
