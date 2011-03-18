@@ -78,9 +78,10 @@ will pack and unpack the structure into an INT64."
   (+ipl-depth-16u+ 16)
   (+ipl-depth-32f+ 32)
   (+ipl-depth-64f+ 64)
-  (+ipl-depth-8s+ #x80000008)
-  (+ipl-depth-16s+ #x80000010)
-  (+ipl-depth-32s+ #x80000020))
+  (+ipl-depth-sign+ -2147483648)  ; IPL_DEPTH_SIGN is #x80000000
+  (+ipl-depth-8s+ -2147483640)    ; IPL_DEPTH_SIGN | 8
+  (+ipl-depth-16s+ -2147483632)   ; IPL_DEPTH_SIGN | 16
+  (+ipl-depth-32s+ -2147483616))  ; IPL_DEPTH_SIGN | 32
 
 (defctype ipl-image :pointer)
 
