@@ -2,6 +2,11 @@
 #+AUTHOR: J. Bromley <jbromley@gmail.com>
 #+TODO: TODO IN_PROGRESS | DONE CANCELED
 
+* TODO Replace glue code and struct packing using fsbv
+I have resorted to some hackery to deal with structs passed by value
+including packing structures into int64s and writing special-case glue
+code. It turns out there is a library fsbv that should allow me to
+handle these cases without such hackery.
 * TODO Wrap highgui functions for reading and writing images. [0%]
   - [ ] cvCreateVideoWriter
   - [ ] cvReleaseVideoWriter
