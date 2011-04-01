@@ -113,8 +113,8 @@ FILTER for the convolution."
   (element-ptr :pointer))
 
 (defun release-structuring-element (element)
-  (with-foreign-object (element-ptr :pointer)
-    (setf (mem-ref element-ptr :pointer) element)
+  (cffi:with-foreign-object (element-ptr :pointer)
+    (setf (cffi:mem-ref element-ptr :pointer) element)
     (%release-structuring-element element-ptr)))
 
 
