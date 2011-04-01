@@ -69,7 +69,7 @@ will pack and unpack the structure into an INT64."
 		(t args))))
 
 ;; CvMat
-(defctype cv-matrix :pointer)
+(cffi:defctype cv-matrix :pointer)
 
 ;; IplImage
 (defanonenum
@@ -83,10 +83,10 @@ will pack and unpack the structure into an INT64."
   (+ipl-depth-16s+ -2147483632)   ; IPL_DEPTH_SIGN | 16
   (+ipl-depth-32s+ -2147483616))  ; IPL_DEPTH_SIGN | 32
 
-(defctype ipl-image :pointer)
+(cffi:defctype ipl-image :pointer)
 
 ;; CvArr
-(defctype cv-array :pointer)
+(cffi:defctype cv-array :pointer)
 
 
 
@@ -94,7 +94,7 @@ will pack and unpack the structure into an INT64."
 ;;; Operations on Arrays
 
 ;; void cvAbsDiff(const CvArr* src1, const CvArr* src2, CvArr* dst)
-(defcfun ("cvAbsDiff" abs-diff) :void
+(cffi:defcfun ("cvAbsDiff" abs-diff) :void
   "Calculate the absolute difference between elements in SRC1 and SRC2
 and store them in DEST."
   (src1 cv-array)
@@ -102,7 +102,7 @@ and store them in DEST."
   (dest cv-array))
 
 ;; void cvAbsDiffS(const CvArr* src, CvArr* dst, CvScalar value)
-(defcfun ("cvAbsDiffS_glue" %abs-diff-scalar-glue) :void
+(cffi:defcfun ("cvAbsDiffS_glue" %abs-diff-scalar-glue) :void
   (src cv-array)
   (dest cv-array)
   (s1 :double)
@@ -116,7 +116,7 @@ and store them in DEST."
 
 ;; void cvAddWeighted(const CvArr* src1, double alpha, const CvArr* src2, 
 ;;                    double beta, double gamma, CvArr* dst)
-(defcfun ("cvAddWeighted" add-weighted) :void
+(cffi:defcfun ("cvAddWeighted" add-weighted) :void
   (src1 cv-array)
   (alpha :double)
   (src2 cv-array)
@@ -125,7 +125,7 @@ and store them in DEST."
   (gamma :double))
 
 ;; void cvCopy(const CvArr* src, CvArr* dst, const CvArr* mask=NULL)
-(defcfun ("cvCopy" %copy) :void
+(cffi:defcfun ("cvCopy" %copy) :void
   (src cv-array)
   (dest cv-array)
   (mask cv-array))
@@ -136,7 +136,7 @@ are copied."
   (%copy src dest mask))
 
 ;; IplImage* cvCreateImage(CvSize size, int depth, int channels)
-(defcfun ("cvCreateImage" %create-image) ipl-image
+(cffi:defcfun ("cvCreateImage" %create-image) ipl-image
   (size :int64)
   (depth :int)
   (channels :int))
@@ -148,7 +148,7 @@ channel, and CHANNELS number of channels."
     (%create-image nsize depth channels)))
 
 ;; CvSize cvGetSize(const CvArr* arr)
-(defcfun ("cvGetSize" %get-size) :int64
+(cffi:defcfun ("cvGetSize" %get-size) :int64
   (arr cv-array))
 
 (defun get-size (arr)
@@ -158,7 +158,7 @@ dimensions."
     (int64->cv-size nsize)))
 
 ;; void cvReleaseImage(IplImage** image)
-(defcfun ("cvReleaseImage" %release-image) :void
+(cffi:defcfun ("cvReleaseImage" %release-image) :void
   (image-ptr :pointer))
 
 (defun release-image (image)
@@ -168,13 +168,13 @@ dimensions."
     (%release-image image-ptr)))
 
 ;; void cvResetImageROI(IplImage* image)
-(defcfun ("cvResetImageROI" reset-image-roi) :void
+(cffi:defcfun ("cvResetImageROI" reset-image-roi) :void
   "Reset the ROI for IMAGE."
   (image ipl-image))
 
 ;; void cvSetImageROI(IplImage* image, CvRect rect)
 ;; Note: the two int64 parameters actually represent a CvRect structure.
-(defcfun ("cvSetImageROI" %set-image-roi) :void
+(cffi:defcfun ("cvSetImageROI" %set-image-roi) :void
   (image ipl-image)
   (rect-i1 :int64)
   (rect-i2 :int64))
@@ -186,7 +186,7 @@ dimensions."
 
 ;; void cvSub(const CvArr* src1, const CvArr* src2, CvArr* dst, 
 ;;            const CvArr* mask=NULL)
-(defcfun ("cvSub" %subtract) :void
+(cffi:defcfun ("cvSub" %subtract) :void
   (src1 cv-array)
   (src2 cv-array)
   (dest cv-array)
@@ -200,7 +200,7 @@ limited range."
 
 ;; void cvSubS(const CvArr* src, CvScalar value, CvArr* dst, 
 ;;             const CvArr* mask=NULL)
-(defcfun ("cvSubS_glue" %subtract-scalar-glue) :void
+(cffi:defcfun ("cvSubS_glue" %subtract-scalar-glue) :void
   (src cv-array)
   (s1 :double)
   (s2 :double)
@@ -218,7 +218,7 @@ non-zero."
 
 ;; void cvSubRS(const CvArr* src, CvScalar value, CvArr* dst, 
 ;;              const CvArr* mask=NULL) 
-(defcfun ("cvSubRS_glue" %subtract-r-scalar-glue) :void
+(cffi:defcfun ("cvSubRS_glue" %subtract-r-scalar-glue) :void
   (src cv-array)
   (s1 :double)
   (s2 :double)

@@ -11,7 +11,7 @@
 
 ;;; Image Filtering
 
-(defctype ipl-conv-kernel :pointer)
+(cffi:defctype ipl-conv-kernel :pointer)
 
 ;; TODO test cvCopyMakeBorder
 ;; void cvCopyMakeBorder(const CvArr* src, CvArr* dst, CvPoint offset, 
@@ -20,7 +20,7 @@
   +ipl-border-constant+
   +ipl-border-replicate+)
 
-(defcfun ("cvCopyMakeBorder_glue" %copy-make-border) :void
+(cffi:defcfun ("cvCopyMakeBorder_glue" %copy-make-border) :void
   (src cv-array)
   (dest cv-array)
   (offset :int64)
@@ -43,7 +43,7 @@
   +cv-shape-ellipse+
   (+cv-shape-custom+ 100))
 
-(defcfun ("cvCreateStructuringElementEx" %create-structuring-element-ex) :void
+(cffi:defcfun ("cvCreateStructuringElementEx" %create-structuring-element-ex) :void
   (cols :int)
   (rows :int)
   (anchor-x :int)
@@ -61,7 +61,7 @@ SHAPE filled with VALUES."
 
 ;; void cvDilate(const CvArr* src, CvArr* dst, IplConvKernel* element = NULL, 
 ;;               int iterations = 1)
-(defcfun ("cvDilate" %dilate) :void
+(cffi:defcfun ("cvDilate" %dilate) :void
   (src cv-array)
   (dest cv-array)
   (element ipl-conv-kernel)
@@ -73,7 +73,7 @@ SHAPE filled with VALUES."
 ;; void cvErode(const CvArr* src, CvArr* dst, IplConvKernel* element=NULL, 
 ;;              int iterations=1)
 
-(defcfun ("cvErode" %erode) :void
+(cffi:defcfun ("cvErode" %erode) :void
   (src cv-array)
   (dest cv-array)
   (element ipl-conv-kernel)
@@ -84,7 +84,7 @@ SHAPE filled with VALUES."
 
 ;; void cvLaplace(const CvArr* src, CvArr* dst, int apertureSize=3)
 
-(defcfun ("cvLaplace" %laplace) :void
+(cffi:defcfun ("cvLaplace" %laplace) :void
   (src cv-array)
   (dest cv-array)
   (aperture-size :int))
@@ -96,7 +96,7 @@ SHAPE filled with VALUES."
 (defanonenum
   (+gaussian-5x5+ 7))
 
-(defcfun ("cvPyrDown" %pyr-down) :void
+(cffi:defcfun ("cvPyrDown" %pyr-down) :void
   (src cv-array)
   (dest cv-array)
   (filter :int))
@@ -109,7 +109,7 @@ FILTER for the convolution."
 
 ;; void cvReleaseStructuringElement(IplConvKernel** element)
 
-(defcfun ("cvReleaseStructuringElement" %release-structuring-element) :void
+(cffi:defcfun ("cvReleaseStructuringElement" %release-structuring-element) :void
   (element-ptr :pointer))
 
 (defun release-structuring-element (element)
@@ -144,7 +144,7 @@ FILTER for the convolution."
   +adaptive-thresh-mean-c+
   +adaptive-thresh-gaussian-c+)
 
-(defcfun ("cvAdaptiveThreshold" %adaptive-threshold) :void
+(cffi:defcfun ("cvAdaptiveThreshold" %adaptive-threshold) :void
   (src cv-array)                ; source image
   (dest cv-array)               ; destination image
   (max-value :double)           ; maximum value: binary and inverse binary
@@ -164,7 +164,7 @@ FILTER for the convolution."
 ;; double cvThreshold(const CvArr* src, CvArr* dst, double threshold, 
 ;;                    double maxValue, int thresholdType)
 
-(defcfun ("cvThreshold" %threshold) :double
+(cffi:defcfun ("cvThreshold" %threshold) :double
   (src cv-array)
   (dest cv-array)
   (threshold :double)

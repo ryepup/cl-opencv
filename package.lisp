@@ -1,7 +1,7 @@
 ;;; -*- mode: lisp; indent-tabs: nil -*-
 
 (defpackage :cl-opencv
-  (:use #:cl #:cffi)
+  (:use #:cl)
   (:export 
    ;; core - basic structures
    #:cv-point
