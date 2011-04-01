@@ -11,12 +11,12 @@
    #:cv-point-x
    #:cv-point-y
 
-   #:cv-size
-   #:make-cv-size
-   #:cv-size-p
-   #:copy-cv-size
-   #:cv-size-width
-   #:cv-size-height
+   #:size
+   #:make-size
+   #:size-p
+   #:copy-size
+   #:size-width
+   #:size-height
 
    #:cv-rect
    #:make-cv-rect

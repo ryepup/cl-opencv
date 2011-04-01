@@ -40,8 +40,8 @@ will pack and unpack the structure into an INT64."
 (make-structure-serializers :cv-point :x :y)
 
 ;; CvSize
-(defstruct cv-size (width 0) (height 0))
-(make-structure-serializers :cv-size :width :height)
+(defstruct size (width 0) (height 0))
+(make-structure-serializers :size :width :height)
 
 ;; CvRect
 ;; More kludging Lisp structs to 64-bit integers which are really C structs.
@@ -144,7 +144,7 @@ are copied."
 (defun create-image (size depth channels)
   "Create an image with dimensions given by SIZE, DEPTH bits per
 channel, and CHANNELS number of channels."
-  (let ((nsize (cv-size->int64 size)))
+  (let ((nsize (size->int64 size)))
     (%create-image nsize depth channels)))
 
 ;; CvSize cvGetSize(const CvArr* arr)
@@ -152,10 +152,10 @@ channel, and CHANNELS number of channels."
   (arr cv-array))
 
 (defun get-size (arr)
-  "Get the dimensions of the OpenCV array ARR. Return a cv-size struct with the
+  "Get the dimensions of the OpenCV array ARR. Return a size struct with the
 dimensions."
   (let ((nsize (%get-size arr)))
-    (int64->cv-size nsize)))
+    (int64->size nsize)))
 
 ;; void cvReleaseImage(IplImage** image)
 (cffi:defcfun ("cvReleaseImage" %release-image) :void
