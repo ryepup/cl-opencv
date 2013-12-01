@@ -10,7 +10,9 @@
 
 (cffi:define-foreign-library highgui
   (:darwin (:or "libopencv_highgui.2.2.0.dylib" "libopencv_highgui.dylib"))
-  (:unix (:or "libhighgui.so.2.1.0" "libhighgui.so" ))
+  (:unix (:or "libhighgui.so.2.1.0" "libhighgui.so"
+              "libopencv_highgui.so.2.3"
+              "libopencv_highgui.so.2.3.1"))
   (t (:default "libhighgui")))
 (cffi:use-foreign-library highgui)
 
